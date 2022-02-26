@@ -2,9 +2,12 @@ package com.crypter.game.util;
 
 import com.badlogic.gdx.Gdx;
 
-public class Window {
+/** 
+ * Class containing information about the window.
+ **/
+public final class Window {
 
-	private static final int WIDTH = Gdx.graphics.getWidth(),
-							 HEIGHT = Gdx.graphics.getHeight();
-	
+	public static final int WIDTH = Gdx.graphics.getWidth();
+	public static final int HEIGHT = Gdx.graphics.getHeight();
+
 }

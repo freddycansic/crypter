@@ -18,7 +18,7 @@ public class Main extends Game {
 		instance = this;
 		rs = new Resources();
 		
-		Main.setScene(new Level1(rs));
+		Main.setScene(new Level1());
 	}
 
 	@Override
