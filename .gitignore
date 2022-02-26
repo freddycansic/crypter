@@ -1,3 +1,9 @@
+## Custom
+
+*.gradle
+gradle.*
+gradle/**
+
 ## Java
 
 *.class
