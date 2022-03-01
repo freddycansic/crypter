@@ -39,21 +39,21 @@ public class WalkAnimation {
 	    
 	}
 	
-	public AtlasRegion getLeftIdle() {
-		return leftAnimation.getKeyFrames()[0];
-	}
-	
-	public AtlasRegion getRightIdle() {
-		return rightAnimation.getKeyFrames()[0];
-	}
-	
-	public AtlasRegion getUpIdle() {
-		return upAnimation.getKeyFrames()[0];
-	}
-	
-	public AtlasRegion getDownIdle() {
-		return downAnimation.getKeyFrames()[0];
-	}
+//	public AtlasRegion getLeftIdle() {
+//		return leftAnimation.getKeyFrames()[0];
+//	}
+//	
+//	public AtlasRegion getRightIdle() {
+//		return rightAnimation.getKeyFrames()[0];
+//	}
+//	
+//	public AtlasRegion getUpIdle() {
+//		return upAnimation.getKeyFrames()[0];
+//	}
+//	
+//	public AtlasRegion getDownIdle() {
+//		return downAnimation.getKeyFrames()[0];
+//	}
 	
 	public Animation<AtlasRegion> getLeft() {
 		return leftAnimation;
