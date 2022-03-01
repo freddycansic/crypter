@@ -1,0 +1,89 @@
+walkSheet.png
+size: 54,40
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+downIdle
+  rotate: false
+  xy: 0, 0
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+downWalkRight
+  rotate: false
+  xy: 9, 0
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+downWalkLeft
+  rotate: false
+  xy: 18, 0
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+rightIdle
+  rotate: false
+  xy: 27, 0
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+rightWalkLeft
+  rotate: false
+  xy: 36, 0
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+rightWalkRight
+  rotate: false
+  xy: 45, 0
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+upIdle
+  rotate: false
+  xy: 0, 20
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+upWalkRight
+  rotate: false
+  xy: 9, 20
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+upWalkLeft
+  rotate: false
+  xy: 18, 20
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+leftIdle
+  rotate: false
+  xy: 27, 20
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+leftWalkRight
+  rotate: false
+  xy: 36, 20
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
+leftWalkLeft
+  rotate: false
+  xy: 45, 20
+  size: 9, 20
+  orig: 9, 20
+  offset: 0, 0
+  index: -1
