@@ -8,9 +8,9 @@ public class Level1 extends Scene {
 	private Player player;
 	
 	public Level1() {
-		player = new Player(Window.WIDTH/2, Window.HEIGHT/2);
+		player = new Player();
 		
-		this.addActor(player);
+		addActor(player);
 	}
 	
 	@Override

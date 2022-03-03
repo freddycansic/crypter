@@ -10,13 +10,11 @@ import com.crypter.game.util.Resources;
 
 public class Main extends Game {
 	
-	private static Main instance;
-	private Scene currentScene;
+	private static Scene currentScene;
 	private Resources rs;
 	
 	@Override
 	public void create () {
-		instance = this;
 		rs = new Resources();
 		
 		Main.setScene(new Level1());
@@ -38,7 +36,11 @@ public class Main extends Game {
 	}
 
 	public static void setScene(Scene scene) {
-		instance.currentScene = scene;
-//		Main.currentScene = scene;
+		Main.currentScene = scene;
+		Gdx.input.setInputProcessor(scene);
+	}
+	
+	public static Scene getCurrentScene() {
+		return currentScene;
 	}
 }

@@ -5,7 +5,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.crypter.game.Main;
 import com.crypter.game.WalkAnimation;
+import com.crypter.game.util.Window;
 
 public class Player extends Entity {
 
@@ -14,11 +17,14 @@ public class Player extends Entity {
 	private float moveSpeed = 4;
 	private Animation<AtlasRegion> lastDirection;
 	
-	public Player(float x, float y) {
-		super(x, y, 9, 20);
-
+	public Player() {
+		super(Window.WIDTH/2, Window.HEIGHT/2);
+		
 		walkAnimation = new WalkAnimation(Gdx.files.internal("sprites/player/animations/walk/walkSpriteSheet.atlas"), 0.1f);
 		lastDirection = walkAnimation.getDown();
+
+		// set width and height to the dimensions of first frame in walk animation
+		setHitbox(new Rectangle(x, y, walkAnimation.getDown().getKeyFrames()[0].getRegionWidth(), walkAnimation.getDown().getKeyFrames()[0].getRegionHeight()));
 	}
 	
 	@Override
@@ -58,8 +64,19 @@ public class Player extends Entity {
 
 	@Override
 	public void act(float delta) {
-		elapsedTime += Gdx.graphics.getDeltaTime();
+		elapsedTime += delta;
 		
+		for (Entity entity : Main.getCurrentScene().getEntities()) {
+			if (this.hitbox.overlaps(entity.getHitbox()))
+				entity.interact(this);
+		}
+	}
+
+	@Override
+	public void interact(Player player) {
+		// will never be called
+		System.err.println("Player interact method called...");
+		System.exit(-1);
 	}
 	
 }

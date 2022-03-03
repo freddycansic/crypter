@@ -7,13 +7,9 @@ public abstract class GameObject extends Actor {
 
 	protected float x, y, width, height;
 	
-	public GameObject(float x, float y, float width, float height) {
+	public GameObject(float x, float y) {
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
-		
-		setBounds(x, y, width, height); // create bounding box
 	}
 	
 //	public GameObject(float x, float y, float width, float height, Action action) {
