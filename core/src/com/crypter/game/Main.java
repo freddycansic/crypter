@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.crypter.game.entities.Entity;
 import com.crypter.game.scenes.Level1;
 import com.crypter.game.scenes.Scene;
 import com.crypter.game.util.Resources;
@@ -26,6 +27,10 @@ public class Main extends Game {
 
 		currentScene.act();
 		currentScene.render();
+		
+		for (Entity entity : currentScene.getEntities()) {
+			entity.drawHitbox();
+		}
 		
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) Gdx.app.exit();
 	}

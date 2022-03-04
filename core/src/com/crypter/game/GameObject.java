@@ -12,27 +12,52 @@ public abstract class GameObject extends Actor {
 		this.y = y;
 	}
 	
-//	public GameObject(float x, float y, float width, float height, Action action) {
-//		this.x = x;
-//		this.y = y;
-//		this.width = width;
-//		this.height = height;
-//	
-//		this.addAction(action);
-//		setBounds(x, y, width, height); // create bounding box
-//		this.setTouchable(true);
-//	}
-	
+	public GameObject(float x, float y, float width, float height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+
 	@Override
 	public abstract void draw(Batch batch, float parentAlpha);
 
 	@Override
-	public abstract void act(float delta);
-
-//	public void setTouchable(boolean touchable) {
-//		if (touchable) 
-//			this.setTouchable(Touchable.enabled);
-//		else
-//			this.setTouchable(Touchable.disabled);
-//	}
+	public void act(float delta) {
+		update(delta);
+	}
+	// i dont like the method name "act"
+	public abstract void update(float delta);
+	
+	public float getX() {
+		return x;
+	}
+	
+	public void setX(float x) {
+		this.x = x;
+	}
+	
+	public float getY() {
+		return y;
+	}
+	
+	public void setY(float y) {
+		this.y = y;
+	}
+	
+	public float getWidth() {
+		return width;
+	}
+	
+	public void setWidth(float width) {
+		this.width = width;
+	}
+	
+	public float getHeight() {
+		return height;
+	}
+	
+	public void setHeight(float height) {
+		this.height = height;
+	}
 }

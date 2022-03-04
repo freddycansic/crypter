@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.math.Rectangle;
+import com.crypter.game.Hitbox;
 import com.crypter.game.Main;
 import com.crypter.game.WalkAnimation;
 import com.crypter.game.util.Window;
@@ -23,13 +23,12 @@ public class Player extends Entity {
 		walkAnimation = new WalkAnimation(Gdx.files.internal("sprites/player/animations/walk/walkSpriteSheet.atlas"), 0.1f);
 		lastDirection = walkAnimation.getDown();
 
-		// set width and height to the dimensions of first frame in walk animation
-		setHitbox(new Rectangle(x, y, walkAnimation.getDown().getKeyFrames()[0].getRegionWidth(), walkAnimation.getDown().getKeyFrames()[0].getRegionHeight()));
+		setHitbox(new Hitbox(this, lastDirection.getKeyFrames()[0]));
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		
+
 		// handle input
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			lastDirection = walkAnimation.getUp();
@@ -54,20 +53,25 @@ public class Player extends Entity {
 		// if no buttons are being pressed then render the last facing direction's idle position
 		if (!Gdx.input.isKeyPressed(Keys.W) && !Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.S) && !Gdx.input.isKeyPressed(Keys.D)) {
 			
+//			this.drawHitbox();
 			batch.draw(lastDirection.getKeyFrames()[0], x, y);
 			return; // exit as to not draw moving animation
 		}
-		
+//		this.drawHitbox();
 		batch.draw(lastDirection.getKeyFrame(elapsedTime, true), x, y);
 
 	}
 
 	@Override
-	public void act(float delta) {
+	public void update(float delta) {
+		super.update(delta);
+		
 		elapsedTime += delta;
 		
 		for (Entity entity : Main.getCurrentScene().getEntities()) {
-			if (this.hitbox.overlaps(entity.getHitbox()))
+			if (entity == this) continue; // dont check against itself TODO could get weird
+			
+			if (this.getHitbox().overlaps(entity.getHitbox())) 
 				entity.interact(this);
 		}
 	}

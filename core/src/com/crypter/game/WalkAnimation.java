@@ -1,5 +1,8 @@
 package com.crypter.game;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -37,6 +40,9 @@ public class WalkAnimation {
 	    		walkCycleAtlas.findRegion("downWalkLeft")
 	    );
 	    
+	    for(AtlasRegion region : leftAnimation.getKeyFrames()) {
+	    	if (region == null) System.err.println("gg");
+	    }
 	}
 	
 //	public AtlasRegion getLeftIdle() {

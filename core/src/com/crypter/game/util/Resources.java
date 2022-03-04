@@ -4,22 +4,22 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Resources {
 
 	public static Random r;
 	public static Camera camera;
-	public static SpriteBatch batch;
+	public static ShapeRenderer sr;
 	
 	public Resources() {
 		r = new Random();
 		camera = new OrthographicCamera();
-		batch = new SpriteBatch();
+		sr = new ShapeRenderer();
 	}
 	
 	
 	public void dispose() {
-		batch.dispose();
+		sr.dispose();
 	}
 }
