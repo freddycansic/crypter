@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.crypter.game.Hitbox;
 import com.crypter.game.Main;
 import com.crypter.game.WalkAnimation;
+import com.crypter.game.util.Resources;
 import com.crypter.game.util.Window;
 
 public class Player extends Entity {
@@ -20,45 +22,45 @@ public class Player extends Entity {
 	public Player() {
 		super(Window.WIDTH/2, Window.HEIGHT/2);
 		
-		walkAnimation = new WalkAnimation(Gdx.files.internal("sprites/player/animations/walk/walkSpriteSheet.atlas"), 0.1f);
+		walkAnimation = new WalkAnimation(Gdx.files.internal("entities/player/animations/walk/walkSpriteSheet.atlas"), 0.1f);
 		lastDirection = walkAnimation.getDown();
 
-		setHitbox(new Hitbox(this, lastDirection.getKeyFrames()[0]));
+		setHitbox(new Hitbox(this, lastDirection.getKeyFrames()[0])); // TODO make camera stick to player
+		// log function = y = 50log(-x+1000)-50
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-
+		
 		// handle input
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			lastDirection = walkAnimation.getUp();
-			this.y += moveSpeed;
+			this.setY(this.getY() + moveSpeed);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.A)) {
 			lastDirection = walkAnimation.getLeft();
-			this.x -= moveSpeed;
+			this.setX(this.getX() - moveSpeed);
 		}
 				
 		if (Gdx.input.isKeyPressed(Keys.S)) {
 			lastDirection = walkAnimation.getDown();
-			this.y -= moveSpeed;
+			this.setY(this.getY() - moveSpeed);
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.D)) {
 			lastDirection = walkAnimation.getRight();
-			this.x += moveSpeed;
+			this.setX(this.getX() + moveSpeed);
 		}
 		
 		// if no buttons are being pressed then render the last facing direction's idle position
 		if (!Gdx.input.isKeyPressed(Keys.W) && !Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.S) && !Gdx.input.isKeyPressed(Keys.D)) {
 			
-//			this.drawHitbox();
-			batch.draw(lastDirection.getKeyFrames()[0], x, y);
+			batch.draw(lastDirection.getKeyFrames()[0], this.getX(), this.getY());
 			return; // exit as to not draw moving animation
 		}
-//		this.drawHitbox();
-		batch.draw(lastDirection.getKeyFrame(elapsedTime, true), x, y);
+		
+		batch.draw(lastDirection.getKeyFrame(elapsedTime, true), this.getX(), this.getY());
 
 	}
 
@@ -81,6 +83,11 @@ public class Player extends Entity {
 		// will never be called
 		System.err.println("Player interact method called...");
 		System.exit(-1);
+	}
+
+	@Override
+	public String toString() {
+		return getVec2Pos().toString();
 	}
 	
 }

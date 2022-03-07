@@ -13,6 +13,9 @@ public class DesktopLauncher {
 		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 //		config.setWindowedMode(1280, 720);
 		config.setResizable(false);
+		
+		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate); 
+
 //		config.samples = 3; // anti aliasing
 //		config.forceExit = false;
 		

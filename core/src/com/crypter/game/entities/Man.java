@@ -1,36 +1,32 @@
 package com.crypter.game.entities;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import com.crypter.game.Hitbox;
-import com.crypter.game.util.Resources;
 
 public class Man extends Entity {
 
-	int width = 50, height = 50;
+	private Texture texture;
 	
 	public Man(float x, float y) {
 		super(x, y);
 		
-		setHitbox(new Hitbox(this));
+		texture = new Texture(Gdx.files.internal("entities/man/textures/man.png"));
+		
+		setHitbox(new Hitbox(this, texture));
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-
+		batch.draw(texture, getX(), getY());
 	}
 
 	@Override
 	public void update(float delta) {
 		super.update(delta);
-		
-		// draw man
-		Resources.sr.begin(ShapeType.Filled);
-		Resources.sr.setColor(Color.BLACK);
-		Resources.sr.rect(x, y, width, height);
-		Resources.sr.end();
+	
+		getHitbox().setPos(getVec2Pos());
 	}
 
 	@Override

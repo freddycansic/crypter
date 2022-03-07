@@ -3,11 +3,10 @@ package com.crypter.game.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.math.Vector2;
 import com.crypter.game.GameObject;
 import com.crypter.game.Hitbox;
+import com.crypter.game.Main;
 import com.crypter.game.util.Resources;
 
 public abstract class Entity extends GameObject {
@@ -23,19 +22,22 @@ public abstract class Entity extends GameObject {
 
 	@Override
 	public void update(float delta) {
-		hitbox.setX(x - 15);
-		hitbox.setY(y - 15);
+		hitbox.setX(this.getX() - Hitbox.HITBOX_WIDTH);
+		hitbox.setY(this.getY() - Hitbox.HITBOX_WIDTH);
 	}
 
 	public abstract void interact(Player player);
 	
-//	public void addAction(Action action) {
-//		this.action = action;
-//		super.addAction(action);
-//	}
-	
-	public void addListener(InputListener listener) {
-		super.addListener(listener);
+	public void drawHitbox() {
+		Resources.sr.setProjectionMatrix(Main.getCurrentScene().getViewport().getCamera().combined);
+		Resources.sr.begin(ShapeType.Line);
+		Resources.sr.setColor(Color.RED);
+		Resources.sr.rect(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
+		Resources.sr.end();
+	}
+
+	public Vector2 getVec2Pos() {
+		return new Vector2(this.getX(), this.getY());
 	}
 	
 	public Hitbox getHitbox() {
@@ -46,10 +48,4 @@ public abstract class Entity extends GameObject {
 		this.hitbox = hitbox;
 	}
 	
-	public void drawHitbox() {
-		Resources.sr.begin(ShapeType.Line);
-		Resources.sr.setColor(Color.RED);
-		Resources.sr.rect(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
-		Resources.sr.end();
-	}
 }

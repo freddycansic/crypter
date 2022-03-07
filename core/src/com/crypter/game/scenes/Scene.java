@@ -4,21 +4,26 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crypter.game.entities.Entity;
 
 public abstract class Scene extends Stage {
 
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	
+	public Scene(Viewport viewport) {
+		super(viewport);
+	}
+	
 	public Scene() {
 		
 	}
 	
-	public abstract void render();
+	public abstract void update();
 	
-//	public void addUIComponent(UIComponent component) {
-//		this.addActor(component.getActor());
-//	}
+	public void render() {
+		this.draw();
+	}
 	
 	// cool
 	public void add(Actor... actors) {

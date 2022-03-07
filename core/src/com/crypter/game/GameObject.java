@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class GameObject extends Actor {
 
-	protected float x, y, width, height;
+	private float x, y, width, height;
 	
 	public GameObject(float x, float y) {
 		this.x = x;
