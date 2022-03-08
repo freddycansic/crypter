@@ -6,10 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crypter.game.entities.Entity;
+import com.crypter.game.util.TileMap;
 
 public abstract class Scene extends Stage {
 
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
+	private TileMap tilemap;
 	
 	public Scene(Viewport viewport) {
 		super(viewport);
@@ -42,5 +44,13 @@ public abstract class Scene extends Stage {
 			this.entities.add(entity);
 			
 		add(entities);
+	}
+	
+	public TileMap getTileMap() {
+		return this.tilemap;
+	}
+	
+	public void setTileMap(TileMap tilemap) {
+		this.tilemap = tilemap;
 	}
 }

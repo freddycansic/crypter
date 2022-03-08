@@ -26,7 +26,6 @@ public class Man extends Entity {
 	public void update(float delta) {
 		super.update(delta);
 	
-		getHitbox().setPos(getVec2Pos());
 	}
 
 	@Override

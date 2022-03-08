@@ -22,28 +22,15 @@ public class Level1 extends Scene {
 	private Player player;
 	private Man man;
 	private OrthographicCamera camera = (OrthographicCamera) this.getViewport().getCamera();
-	
-	private TiledMap map;
-	private TiledMapRenderer mapRenderer;
 
-	MapLayer objectLayer;
-	Array<RectangleMapObject> objectRects;
-	
 	public Level1(Viewport viewport) {
-		super(viewport);
-		
-		map = new TmxMapLoader().load("tilemaps/tilemap.tmx");
-		mapRenderer = new OrthogonalTiledMapRenderer(map);
-		
+		super(viewport);		
 		
 		player = new Player();
 		man = new Man(3*Window.WIDTH/4, 3*Window.HEIGHT/4);
 		
 		this.addEntities(man, player);
-		
-		objectLayer = map.getLayers().get(2);
-		objectRects = objectLayer.getObjects().getByType(RectangleMapObject.class);
-		
+		this.setTileMap(Resources.tilemap1);
 	}
 	
 	@Override
@@ -55,28 +42,10 @@ public class Level1 extends Scene {
 	@Override
 	public void render() {
 		// render tilemap
-		mapRenderer.setView(camera);
-		mapRenderer.render();
+		this.getTileMap().getMapRenderer().setView(camera);
+		this.getTileMap().getMapRenderer().render();
 		
 		super.render();
-
-		Resources.sr.begin(ShapeType.Line);
-		for (RectangleMapObject rectObj : objectRects) {
-			Rectangle objectRect = rectObj.getRectangle();
-			
-			if (player.getHitbox().getRect().overlaps(objectRect)) {
-				System.out.println("Overlapping");
-			}
-			
-			System.out.println("Player:\t(" + player.getHitbox().getX() + ", " + player.getHitbox().getY() + ")\t" + player.getHitbox().getWidth() + " " + player.getHitbox().getHeight());
-			System.out.println("Rect:\t(" + objectRect.x + ", " + objectRect.y + ")\t" + objectRect.width + " " + objectRect.height);
-			System.out.println();
-			
-			Resources.sr.rect(objectRect.x, objectRect.y, objectRect.width, objectRect.height);
-		}
-		Resources.sr.end();
-		
-		
 
 	}
 

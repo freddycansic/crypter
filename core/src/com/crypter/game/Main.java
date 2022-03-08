@@ -3,6 +3,8 @@ package com.crypter.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -42,9 +44,22 @@ public class Main extends Game {
 
 		// render
 		currentScene.render();
+		
+		Resources.sr.setProjectionMatrix(Main.getCurrentScene().getViewport().getCamera().combined);
+		Resources.sr.begin(ShapeType.Line);
+		Resources.sr.setColor(Color.RED);
+
 		for (Entity entity : currentScene.getEntities()) {
-			entity.drawHitbox();
+			Resources.sr.rect(entity.getHitbox().getX(), entity.getHitbox().getY(), entity.getHitbox().getWidth(), entity.getHitbox().getHeight());
 		}
+		
+		for (Rectangle rect : Resources.tilemap1.getCollidableRects()) {
+			Resources.sr.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+		}
+		
+		Resources.sr.end();
+		
+		
 	}
 	
 	@Override
