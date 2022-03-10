@@ -28,7 +28,7 @@ public class Main extends Game {
 	public void create () {
 		rs = new Resources();
 		
-		Main.setScene(new Level1(new FitViewport(Window.WIDTH, Window.HEIGHT)));
+		Main.setScene(new Level1(Window.VIEWPORT));
 	}
 
 	@Override

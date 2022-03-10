@@ -16,6 +16,7 @@ public class DesktopLauncher {
 		
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate); 
 
+//		config.setBackBufferConfig(0, 0, 0, 0, 0, 0, 10);
 //		config.samples = 3; // anti aliasing
 //		config.forceExit = false;
 		

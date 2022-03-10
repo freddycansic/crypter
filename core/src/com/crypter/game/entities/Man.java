@@ -3,7 +3,11 @@ package com.crypter.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.crypter.game.Hitbox;
+import com.crypter.game.Main;
+import com.crypter.game.game.Hitbox;
+import com.crypter.game.scenes.FightScene;
+import com.crypter.game.util.Resources;
+import com.crypter.game.util.Window;
 
 public class Man extends Entity {
 
@@ -15,6 +19,7 @@ public class Man extends Entity {
 		texture = new Texture(Gdx.files.internal("entities/man/textures/man.png"));
 		
 		setHitbox(new Hitbox(this, texture));
+		setTexture(texture);
 	}
 
 	@Override
@@ -30,8 +35,8 @@ public class Man extends Entity {
 
 	@Override
 	public void interact(Player player) {
-		System.out.println("Touching!");
-		
+		Main.setScene(new FightScene(Window.VIEWPORT, Resources.player, Resources.man));
 	}
 
+	
 }

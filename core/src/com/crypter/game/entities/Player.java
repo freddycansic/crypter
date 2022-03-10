@@ -10,9 +10,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.crypter.game.Hitbox;
 import com.crypter.game.Main;
-import com.crypter.game.WalkAnimation;
+import com.crypter.game.game.Hitbox;
+import com.crypter.game.game.WalkAnimation;
 import com.crypter.game.util.Resources;
 import com.crypter.game.util.Window;
 
@@ -22,7 +22,6 @@ public class Player extends Entity {
 	private float elapsedTime;
 	private float moveSpeed = 4;
 	private Animation<AtlasRegion> lastDirection;
-	private boolean colliding = false;
 	
 	public Player() {
 		super(Window.WIDTH/2, Window.HEIGHT/2);
@@ -32,6 +31,8 @@ public class Player extends Entity {
 
 		setHitbox(new Hitbox(this, lastDirection.getKeyFrames()[0]));
 		
+		this.setPosition(Window.WIDTH - lastDirection.getKeyFrames()[0].getRegionWidth() / 2,
+				Window.HEIGHT - lastDirection.getKeyFrames()[0].getRegionHeight() / 2);
 		// log function = y = 50log(-x+1000)-50
 	}
 	
@@ -46,7 +47,6 @@ public class Player extends Entity {
 		}
 		
 		batch.draw(lastDirection.getKeyFrame(elapsedTime, true), this.getX(), this.getY());
-		colliding = false;
 	}
 
 	@Override
@@ -62,27 +62,15 @@ public class Player extends Entity {
 				entity.interact(this);
 		}
 		
-		// handle input
-		if (Gdx.input.isKeyPressed(Keys.W)) {
-			lastDirection = walkAnimation.getUp();
-			this.setY(this.getY() + moveSpeed);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.A) && !colliding) {
-			lastDirection = walkAnimation.getLeft();
-			this.setX(this.getX() - moveSpeed);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.S) && !colliding) {
-			lastDirection = walkAnimation.getDown();
-			this.setY(this.getY() - moveSpeed);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.D) && !colliding) {
-			lastDirection = walkAnimation.getRight();
-			this.setX(this.getX() + moveSpeed);
-		}
+		handleKeyboardMovement();
 		
+//		handleTilemapCollision();
+		
+	}
+
+	private void handleTilemapCollision() {
+		if (Main.getCurrentScene().getTileMap().getCollidableRects() == null) return;		
+				
 		// handle collision with tilemaps
 		for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
 			
@@ -102,7 +90,29 @@ public class Player extends Entity {
 				this.setY(this.getY() + moveSpeed);
 			}
 		}
-		
+	}
+
+	private void handleKeyboardMovement() {
+		// handle input
+		if (Gdx.input.isKeyPressed(Keys.W)) {
+			lastDirection = walkAnimation.getUp();
+			this.setY(this.getY() + moveSpeed);
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			lastDirection = walkAnimation.getLeft();
+			this.setX(this.getX() - moveSpeed);
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.S)) {
+			lastDirection = walkAnimation.getDown();
+			this.setY(this.getY() - moveSpeed);
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.D)) {
+			lastDirection = walkAnimation.getRight();
+			this.setX(this.getX() + moveSpeed);
+		}
 	}
 
 	@Override
@@ -117,4 +127,7 @@ public class Player extends Entity {
 		return getVec2Pos().toString();
 	}
 	
+	public WalkAnimation getWalkAnimation() {
+		return this.walkAnimation;
+	}
 }

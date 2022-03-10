@@ -1,4 +1,4 @@
-package com.crypter.game.util;
+package com.crypter.game.game;
 
 import java.util.ArrayList;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -24,11 +24,15 @@ public final class TileMap {
 	public TileMap(String path) {
 		map = new TmxMapLoader().load(path);
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
-		objectRects = map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class);
 		
-		for (RectangleMapObject objectRect : objectRects) {
-			collidableRects.add(objectRect.getRectangle());
-		}
+		try {
+			objectRects = map.getLayers().get("object").getObjects().getByType(RectangleMapObject.class);
+			
+			for (RectangleMapObject objectRect : objectRects) {
+				collidableRects.add(objectRect.getRectangle());
+			}			
+			
+		} catch (Exception e) {}
 		
 	}
 	
@@ -44,6 +48,10 @@ public final class TileMap {
 		return mapRenderer;
 	}
 	
+	/**
+	 * Get collidable rectangles form the object layer in the the TiledMap
+	 * @return the collidable rectangles
+	 */
 	public ArrayList<Rectangle> getCollidableRects() {
 		return collidableRects;
 	}

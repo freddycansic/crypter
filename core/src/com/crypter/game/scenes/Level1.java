@@ -19,16 +19,13 @@ import com.crypter.game.util.Window;
 
 public class Level1 extends Scene {
 
-	private Player player;
-	private Man man;
+	private Player player = Resources.player;
+	private Man man = Resources.man;
 	private OrthographicCamera camera = (OrthographicCamera) this.getViewport().getCamera();
 
 	public Level1(Viewport viewport) {
 		super(viewport);		
-		
-		player = new Player();
-		man = new Man(3*Window.WIDTH/4, 3*Window.HEIGHT/4);
-		
+				
 		this.addEntities(man, player);
 		this.setTileMap(Resources.tilemap1);
 	}

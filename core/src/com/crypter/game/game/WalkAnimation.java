@@ -1,4 +1,4 @@
-package com.crypter.game;
+package com.crypter.game.game;
 
 import java.util.Collection;
 import java.util.Collections;

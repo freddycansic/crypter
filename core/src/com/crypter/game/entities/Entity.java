@@ -1,17 +1,19 @@
 package com.crypter.game.entities;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.crypter.game.GameObject;
-import com.crypter.game.Hitbox;
 import com.crypter.game.Main;
+import com.crypter.game.game.Hitbox;
 import com.crypter.game.util.Resources;
 
 public abstract class Entity extends GameObject {
 
 	private Hitbox hitbox;
+	private Texture texture;
 	
 	public Entity(float x, float y) {
 		super(x, y);
@@ -48,4 +50,16 @@ public abstract class Entity extends GameObject {
 		this.hitbox = hitbox;
 	}
 	
+	public void setPos(float x, float y) {
+		setX(x);
+		setY(y);
+	}
+
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
 }
