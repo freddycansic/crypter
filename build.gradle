@@ -26,6 +26,7 @@ allprojects {
         ashleyVersion = '1.7.4'
         aiVersion = '1.8.2'
         gdxControllersVersion = '2.2.1'
+        visuiVersion = '1.5.0'
     }
 
     repositories {
@@ -59,6 +60,6 @@ project(":core") {
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        
+        api "com.kotcrab.vis:vis-ui:$visuiVersion"
     }
 }

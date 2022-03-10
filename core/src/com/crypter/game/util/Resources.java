@@ -2,6 +2,7 @@ package com.crypter.game.util;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.crypter.game.entities.Man;
@@ -21,16 +22,16 @@ public class Resources {
 		r = new Random();
 		sr = new ShapeRenderer();	
 		tilemap1 = new TileMap("tilemaps/tilemap.tmx");
-//		skin = new Skin()
+		skin = new Skin(Gdx.files.internal("skins/commodore/uiskin.json"));
 		
 		player = new Player();
 		man = new Man(3*Window.WIDTH/4, 3*Window.HEIGHT/4);
 
 	}
 	
-	
 	public void dispose() {
 		sr.dispose();
 		tilemap1.dispose();
+		skin.dispose();
 	}
 }

@@ -5,22 +5,17 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.crypter.game.Main;
 import com.crypter.game.game.Hitbox;
 import com.crypter.game.game.WalkAnimation;
-import com.crypter.game.util.Resources;
 import com.crypter.game.util.Window;
 
 public class Player extends Entity {
 
 	private WalkAnimation walkAnimation;
 	private float elapsedTime;
-	private float moveSpeed = 4;
+	private float moveSpeed = 400;
 	private Animation<AtlasRegion> lastDirection;
 	
 	public Player() {
@@ -62,7 +57,7 @@ public class Player extends Entity {
 				entity.interact(this);
 		}
 		
-		handleKeyboardMovement();
+		handleKeyboardMovement(delta);
 		
 //		handleTilemapCollision();
 		
@@ -92,26 +87,26 @@ public class Player extends Entity {
 		}
 	}
 
-	private void handleKeyboardMovement() {
+	private void handleKeyboardMovement(float delta) {
 		// handle input
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			lastDirection = walkAnimation.getUp();
-			this.setY(this.getY() + moveSpeed);
+			this.setY(this.getY() + moveSpeed * delta);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.A)) {
 			lastDirection = walkAnimation.getLeft();
-			this.setX(this.getX() - moveSpeed);
+			this.setX(this.getX() - moveSpeed * delta);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.S)) {
 			lastDirection = walkAnimation.getDown();
-			this.setY(this.getY() - moveSpeed);
+			this.setY(this.getY() - moveSpeed * delta);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.D)) {
 			lastDirection = walkAnimation.getRight();
-			this.setX(this.getX() + moveSpeed);
+			this.setX(this.getX() + moveSpeed * delta);
 		}
 	}
 

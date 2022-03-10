@@ -1,8 +1,5 @@
 package com.crypter.game.game;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
