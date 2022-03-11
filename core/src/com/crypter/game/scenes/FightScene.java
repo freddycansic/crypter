@@ -27,15 +27,13 @@ public class FightScene extends Scene {
 		this.player.setPos(Window.WIDTH/4 - this.player.getHitbox().getWidth(), Window.HEIGHT / 4);
 		this.enemy.setPos(3*Window.WIDTH/4, 3*Window.HEIGHT/4 - this.enemy.getHitbox().getHeight() / 2);
 		
+		
 		Table table = new Table();
-//		table.setPosition(Window.WIDTH/2, Window.HEIGHT/2, Align.center);
 		table.setSkin(skin);
-		table.setFillParent(true);
-		
-		
-		table.add("Hi");
+		table.setFillParent(true); // set table to window size
+		table.bottom().padBottom(30);
 	
-		table.add(new Button("Help", skin, new Action() {
+		table.add(new Button("FIGHT", skin, new Action() {
 
 			@Override
 			public void action() {
@@ -44,9 +42,35 @@ public class FightScene extends Scene {
 			
 		}).getActor());
 		
+		table.add(new Button("RUN", skin, new Action() {
+
+			@Override
+			public void action() {
+				System.out.println("Hello world");
+			}
+			
+		}).getActor());
+	
+		table.add(new Button("TALK", skin, new Action() {
+
+			@Override
+			public void action() {
+				System.out.println("Hello world");
+			}
+			
+		}).getActor());
+	
+		table.add(new Button("ITEMS", skin, new Action() {
+
+			@Override
+			public void action() {
+				System.out.println("Hello world");
+			}
+			
+		}).getActor());
+	
 		
-		
-		table.setDebug(true);
+//		table.setDebug(true);
 		this.add(table);
 		// TODO read about actions
 	}

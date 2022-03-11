@@ -28,10 +28,7 @@ public class Main extends Game {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 1, 1, 1);
-		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-		Gdx.gl.glScissor(Window.WIDTH/2-100, Window.HEIGHT/2-100, 200, 200);
-		
+		ScreenUtils.clear(0, 0, 0, 1);
 		
 		// update
 		currentScene.act(); // call act on each actor
@@ -47,11 +44,7 @@ public class Main extends Game {
 		Resources.sr.setProjectionMatrix(Main.getCurrentScene().getViewport().getCamera().combined);
 		Resources.sr.begin(ShapeType.Line);
 		Resources.sr.setColor(Color.RED);
-
 		
-		Resources.sr.flush();
-		
-		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
 		for (Entity entity : currentScene.getEntities()) {
 			Resources.sr.rect(entity.getHitbox().getX(), entity.getHitbox().getY(), entity.getHitbox().getWidth(), entity.getHitbox().getHeight());
 		}

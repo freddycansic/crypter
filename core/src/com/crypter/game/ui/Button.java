@@ -28,6 +28,10 @@ public class Button extends UIComponent {
 		});
 	}
 	
+	public Button(String text, Skin skin) {
+		button = new TextButton(text, skin, "default");
+	}
+	
 	@Override
 	public Actor getActor() {
 		return button;
