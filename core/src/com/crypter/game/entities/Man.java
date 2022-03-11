@@ -35,7 +35,7 @@ public class Man extends Entity {
 
 	@Override
 	public void interact(Player player) {
-		Main.setScene(new FightScene(Window.VIEWPORT, Resources.player, Resources.man));
+		Main.setScene(new FightScene(Window.VIEWPORT));
 	}
 
 	

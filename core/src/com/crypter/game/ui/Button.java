@@ -14,18 +14,11 @@ public class Button extends UIComponent {
 	 * @param scene	Scene to add button to
 	 * @param skin	Skin to render button with
 	 * @param text	Text to display in button
-	 * @param x	coordinate of button
-	 * @param y	coordinate of button
-	 * @param width	Width of button
-	 * @param height	Height of button
 	 * @param action	Method to perform on button click
 	 */
-	
-	public Button(Skin skin, String text, float x, float y, float width, float height, final Action action) {
-		super(x, y, width, height);
+		
+	public Button(String text, Skin skin, final Action action) {
 		button = new TextButton(text, skin, "default");
-		button.setPosition(x, y);
-		button.setSize(width, height);
 		
 		button.addListener(new ClickListener() {
 			@Override
