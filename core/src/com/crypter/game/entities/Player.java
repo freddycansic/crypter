@@ -1,12 +1,17 @@
 package com.crypter.game.entities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.crypter.game.Main;
+import com.crypter.game.game.Attack;
 import com.crypter.game.game.Hitbox;
 import com.crypter.game.game.WalkAnimation;
 import com.crypter.game.util.Window;
@@ -17,9 +22,18 @@ public class Player extends Entity {
 	private float elapsedTime;
 	private float moveSpeed = 400;
 	private Animation<AtlasRegion> lastDirection;
-	
+	private Array<Attack> attacks;
+
 	public Player() {
 		super(Window.WIDTH/2, Window.HEIGHT/2);
+
+		attacks = new Array<Attack>();
+		attacks.add(
+			new Attack("punch"),
+			new Attack("kick"),
+			new Attack("leaping pentastrike"),
+			new Attack("cough")
+		);
 		
 		walkAnimation = new WalkAnimation(Gdx.files.internal("entities/player/animations/walk/walkSpriteSheet.atlas"), 0.1f);
 		lastDirection = walkAnimation.getDown();
@@ -124,5 +138,13 @@ public class Player extends Entity {
 	
 	public WalkAnimation getWalkAnimation() {
 		return this.walkAnimation;
+	}
+	
+	public Array<Attack> getAttacks() {
+		return attacks;
+	}
+
+	public void setAttacks(Array<Attack> attacks) {
+		this.attacks = attacks;
 	}
 }

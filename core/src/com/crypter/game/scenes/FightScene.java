@@ -1,13 +1,20 @@
 package com.crypter.game.scenes;
 
+import java.util.stream.Collectors;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crypter.game.entities.Entity;
 import com.crypter.game.entities.Player;
+import com.crypter.game.game.Attack;
 import com.crypter.game.ui.Action;
 import com.crypter.game.ui.Button;
 import com.crypter.game.util.Resources;
@@ -17,9 +24,11 @@ public class FightScene extends Scene {
 
 	private Player player = Resources.player;
 	private Entity enemy = Resources.man;
+	private Image background;
 	
 	private Batch batch = getBatch();
 	private Skin skin = Resources.skin;
+	private final Table ui = new Table();
 	
 	public FightScene(Viewport viewport) {
 		super(viewport);
@@ -27,51 +36,16 @@ public class FightScene extends Scene {
 		this.player.setPos(Window.WIDTH/4 - this.player.getHitbox().getWidth(), Window.HEIGHT / 4);
 		this.enemy.setPos(3*Window.WIDTH/4, 3*Window.HEIGHT/4 - this.enemy.getHitbox().getHeight() / 2);
 		
+		background = new Image(new Texture(Gdx.files.internal("scenes/fight/background.png")));
+		background.setBounds(0, 0, Window.WIDTH, Window.HEIGHT);
 		
-		Table table = new Table();
-		table.setSkin(skin);
-		table.setFillParent(true); // set table to window size
-		table.bottom().padBottom(30);
-	
-		table.add(new Button("FIGHT", skin, new Action() {
-
-			@Override
-			public void action() {
-				System.out.println("Hello world");
-			}
-			
-		}).getActor());
+		ui.setSkin(skin);
+		ui.setFillParent(true); // set table to window size
 		
-		table.add(new Button("RUN", skin, new Action() {
-
-			@Override
-			public void action() {
-				System.out.println("Hello world");
-			}
-			
-		}).getActor());
-	
-		table.add(new Button("TALK", skin, new Action() {
-
-			@Override
-			public void action() {
-				System.out.println("Hello world");
-			}
-			
-		}).getActor());
-	
-		table.add(new Button("ITEMS", skin, new Action() {
-
-			@Override
-			public void action() {
-				System.out.println("Hello world");
-			}
-			
-		}).getActor());
-	
+		showOptions(ui);
 		
-//		table.setDebug(true);
-		this.add(table);
+//		ui.setDebug(true);
+		this.add(background, ui);
 		// TODO read about actions
 	}
 	
@@ -92,6 +66,58 @@ public class FightScene extends Scene {
 		batch.end();
 	}
 	
+	private void showOptions(final Table ui) {
+		ui.reset();
+		ui.bottom().padBottom(30);
+		
+		ui.add(new Button("FIGHT", skin, "xl", new Action() {
+
+			@Override
+			public void action() {
+				showAttacks(ui);
+				return;
+			}
+			
+		}).getActor());
+		
+		ui.add(new Button("TALK", skin, "xl", new Action() {
+
+			@Override
+			public void action() {
+				
+			}
+			
+		}).getActor());
+		
+		ui.add(new Button("ITEMS", skin, "xl", new Action() {
+
+			@Override
+			public void action() {
+				
+			}
+			
+		}).getActor());
+		
+		ui.add(new Button("RUN", skin, "xl", new Action() {
+
+			@Override
+			public void action() {
+				
+			}
+			
+		}).getActor());
+	}
+	
+	private void showAttacks(final Table ui) {
+		ui.reset();
+		ui.bottom().left().padBottom(30);
+		ui.add(new Label("What will you do?", skin, "xl"));
+		
+		List<String> attacks = new List<String>(skin);
+		this.setKeyboardFocus(attacks); // set the actor to receive key events
+		attacks.setItems(player.getAttacks());
+		ui.add(attacks);
+	}
 	
 
 }

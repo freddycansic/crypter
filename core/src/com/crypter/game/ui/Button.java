@@ -17,8 +17,8 @@ public class Button extends UIComponent {
 	 * @param action	Method to perform on button click
 	 */
 		
-	public Button(String text, Skin skin, final Action action) {
-		button = new TextButton(text, skin, "default");
+	public Button(String text, Skin skin, String font, final Action action) {
+		button = new TextButton(text, skin, font);
 		
 		button.addListener(new ClickListener() {
 			@Override
@@ -26,10 +26,6 @@ public class Button extends UIComponent {
 				action.action();
 			}
 		});
-	}
-	
-	public Button(String text, Skin skin) {
-		button = new TextButton(text, skin, "default");
 	}
 	
 	@Override
