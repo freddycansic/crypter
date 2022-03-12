@@ -1,0 +1,231 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	alagard-100: {
+		file: alagard-100.fnt
+	}
+	alagard-30: {
+		file: alagard-30.fnt
+	}
+	alagard-50: {
+		file: alagard-50.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	blue: {
+		r: 0.25882354
+		g: 0.25882354
+		b: 0.90588236
+		a: 1
+	}
+	dark_grey: {
+		r: 0.4
+		g: 0.4
+		b: 0.4
+		a: 1
+	}
+	grey: {
+		r: 0.7
+		g: 0.7
+		b: 0.7
+		a: 1
+	}
+	light_blue: {
+		r: 0.64705884
+		g: 0.64705884
+		b: 1
+		a: 1
+	}
+	light_grey: {
+		r: 0.8
+		g: 0.8
+		b: 0.8
+		a: 1
+	}
+	mauve: {
+		r: 0.11764706
+		g: 0.105882354
+		b: 0.12941177
+		a: 1
+	}
+	white: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	dialogDim: {
+		name: white
+		color: {
+			r: 0.2
+			g: 0.2
+			b: 0.2
+			a: 1
+		}
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: button
+		down: button-down
+	}
+	music: {
+		up: music-off
+		down: music
+		checked: music
+	}
+	sound: {
+		up: sound-off
+		down: sound
+		checked: sound
+	}
+	toggle: {
+		up: button
+		down: button-down
+		checked: button-down
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: check-box
+		checkboxOff: check-box-off
+		font: alagard-30
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		up: button
+		down: button-down
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+	default: {
+		font: alagard-30
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: alagard-30
+		fontColor: black
+	}
+	large: {
+		font: alagard-50
+		fontColor: black
+	}
+	xl: {
+		font: alagard-100
+		fontColor: black
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+	default: {
+		font: alagard-50
+		fontColorSelected: white
+		fontColorUnselected: dark_grey
+		selection: mauve
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+	default-horizontal: {
+		background: progress-bar
+		knobBefore: progress-bar-knob
+	}
+	default-vertical: {
+		background: progress-bar
+		knobBefore: progress-bar-knob
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: blue
+		hScroll: scroll-bar
+		hScrollKnob: scroll-bar-horizontal-knob
+		vScroll: scroll-bar
+		vScrollKnob: scroll-bar-vertical-knob
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+	default-horizontal: {
+		background: slider
+		knob: slider-knob
+	}
+	default-vertical: {
+		background: slider
+		knob: slider-knob
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
+	default-horizontal: {
+		handle: horizontal-split-pane
+	}
+	default-vertical: {
+		handle: vertical-split-pane
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: alagard-30
+		fontColor: white
+		downFontColor: black
+		up: button
+		down: button-down
+	}
+	large: {
+		font: alagard-50
+		fontColor: white
+		downFontColor: black
+		up: button
+		down: button-down
+	}
+	xl: {
+		font: alagard-100
+		fontColor: white
+		downFontColor: black
+		up: button
+		down: button-down
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: alagard-30
+		fontColor: black
+		focusedFontColor: black
+		disabledFontColor: grey
+		background: white
+		cursor: cursor-black
+		selection: light-blue
+		messageFont: alagard-30
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+	default: {
+		background: touchpad
+		knob: touchpad-knob
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
+	default: {
+		plus: plus
+		minus: minus
+		selection: progress-bar
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: window
+		titleFont: alagard-30
+	}
+}
+}

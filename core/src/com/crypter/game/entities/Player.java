@@ -71,6 +71,7 @@ public class Player extends Entity {
 				entity.interact(this);
 		}
 		
+		System.out.println(this.getHitbox().getWidth() + " " + this.getHitbox().getHeight() );
 		handleKeyboardMovement(delta);
 		
 //		handleTilemapCollision();

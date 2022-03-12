@@ -102,7 +102,7 @@ public class FightScene extends Scene {
 
 			@Override
 			public void action() {
-				
+			  
 			}
 			
 		}).getActor());
