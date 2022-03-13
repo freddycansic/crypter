@@ -21,7 +21,6 @@ public class Resources {
 	public Resources() {
 		r = new Random();
 		sr = new ShapeRenderer();	
-		tilemap1 = new TileMap("tilemaps/tilemap.tmx");
 		skin = new Skin(Gdx.files.internal("skins/crypter/uiskin.json"));
 		
 		player = new Player();

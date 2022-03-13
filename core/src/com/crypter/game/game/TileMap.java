@@ -26,7 +26,7 @@ public final class TileMap {
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
 		
 		try {
-			objectRects = map.getLayers().get("object").getObjects().getByType(RectangleMapObject.class);
+			objectRects = map.getLayers().get("Object Layer 1").getObjects().getByType(RectangleMapObject.class);
 			
 			for (RectangleMapObject objectRect : objectRects) {
 				collidableRects.add(objectRect.getRectangle());
