@@ -5,7 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.crypter.game.entities.Entity;
 import com.crypter.game.scenes.Level1;
@@ -39,18 +40,36 @@ public class Main extends Game {
 		// render
 		currentScene.render();
 		
-		// draw hitboxes
 		Resources.sr.setProjectionMatrix(Main.getCurrentScene().getViewport().getCamera().combined);
 		Resources.sr.begin(ShapeType.Line);
 		Resources.sr.setColor(Color.RED);
 		
+		// draw hitboxes around each entity
 		for (Entity entity : currentScene.getEntities()) {
 			Resources.sr.rect(entity.getHitbox().getX(), entity.getHitbox().getY(), entity.getHitbox().getWidth(), entity.getHitbox().getHeight());
 		}
 		
-		for (Rectangle rect : Resources.tilemap1.getCollidableRects()) {
-			Resources.sr.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+		// draw hitboxes around all solid cells in current tilemap
+		TiledMapTileLayer collisionLayer = Main.getCurrentScene().getTileMap().getCollisionLayer();
+		int tileSize = collisionLayer.getTileHeight();
+		
+		for (int i = 0; i < collisionLayer.getWidth(); i++) {
+			for (int j = 0; j < collisionLayer.getHeight(); j++) {
+				
+				try {
+					if (collisionLayer.getCell(i, j).getTile().getProperties().containsKey("solid")) {
+						
+						Resources.sr.rect(i * tileSize, j * tileSize, tileSize, tileSize);
+					}
+					
+				} catch (Exception e) {
+					
+				}
+				
+				
+			}
 		}
+	
 		Resources.sr.end();	
 	}
 	

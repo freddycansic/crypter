@@ -9,7 +9,7 @@ import com.crypter.game.entities.Entity;
 public class Hitbox {
 
 	private Rectangle rect;
-	public static final float HITBOX_WIDTH = 12; // size in pixels to add around the entity 
+	public static final float HITBOX_WIDTH = 0; // size in pixels to add around the entity 
 	
 	public Hitbox() {
 		

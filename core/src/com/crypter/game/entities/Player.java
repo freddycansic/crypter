@@ -1,19 +1,23 @@
 package com.crypter.game.entities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.crypter.game.Main;
 import com.crypter.game.game.Attack;
 import com.crypter.game.game.Hitbox;
+import com.crypter.game.game.TileMap;
 import com.crypter.game.game.WalkAnimation;
+import com.crypter.game.util.Util;
 import com.crypter.game.util.Window;
 
 public class Player extends Entity {
@@ -23,9 +27,10 @@ public class Player extends Entity {
 	private float moveSpeed = 400;
 	private Animation<AtlasRegion> lastDirection;
 	private Array<Attack> attacks;
+	private boolean colliding = false;
 
 	public Player() {
-		super(Window.WIDTH/2, Window.HEIGHT/2);
+		super(Window.WIDTH/2, Window.HEIGHT/2 + 20);
 
 		attacks = new Array<Attack>();
 		attacks.add(
@@ -59,9 +64,7 @@ public class Player extends Entity {
 	}
 
 	@Override
-	public void update(float delta) {
-		super.update(delta);
-		
+	public void update(float delta) {		
 		elapsedTime += delta;
 		
 		for (Entity entity : Main.getCurrentScene().getEntities()) {
@@ -71,57 +74,94 @@ public class Player extends Entity {
 				entity.interact(this);
 		}
 		
-		System.out.println(this.getHitbox().getWidth() + " " + this.getHitbox().getHeight() );
-		handleKeyboardMovement(delta);
+		handleKeyboardMovement(delta);	
+		handleTilemapCollision(delta);
+
+
 		
-//		handleTilemapCollision();
-		
+		super.update(delta);
 	}
 
-	private void handleTilemapCollision() {
-		if (Main.getCurrentScene().getTileMap().getCollidableRects() == null) return;		
+	private void handleTilemapCollision(float delta) {
+//		if (Main.getCurrentScene().getTileMap().getCollidableRects() == null) return;		
 				
 		// handle collision with tilemaps
-		for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
+//		for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
 			
-			if (new Rectangle(this.getHitbox().getX() + moveSpeed, this.getHitbox().getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
-				this.setX(this.getX() - moveSpeed);
-			}
+//			if (new Rectangle(this.getHitbox().getX() + moveSpeed * delta, this.getHitbox().getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight())
+//					.overlaps(rect)) {
+//				this.setX(this.getX() - moveSpeed * delta);
+//			}
+//			
+//			if (new Rectangle(this.getHitbox().getX() - moveSpeed * delta, this.getHitbox().getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
+//				this.setX(this.getX() + moveSpeed * delta);
+//			}
+//			
+//			if (new Rectangle(this.getHitbox().getX(), this.getHitbox().getY() + moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
+//				this.setY(this.getY() - moveSpeed * delta);
+//			}
+//			
+//			if (new Rectangle(this.getHitbox().getX(), this.getHitbox().getY() - moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
+//				this.setY(this.getY() + moveSpeed * delta);
+//			}
 			
-			if (new Rectangle(this.getHitbox().getX() - moveSpeed, this.getHitbox().getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
-				this.setX(this.getX() + moveSpeed);
+//			if (new Rectangle(this.getHitbox().getX() + moveSpeed * delta, this.getHitbox().getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect) ||
+//				new Rectangle(this.getHitbox().getX() - moveSpeed * delta, this.getHitbox().getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect) ||
+//				new Rectangle(this.getHitbox().getX(), this.getHitbox().getY() + moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect) ||
+//				new Rectangle(this.getHitbox().getX(), this.getHitbox().getY() - moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
+//				colliding = true;
+//			} else {
+//				colliding = false;
+//			}
+//		}
+		
+		// check each corner of player hitbox to see if it's colliding with a solid tile
+		for (float[] pos : new float[][] {
+			{this.getX(), this.getY()}, 
+			{this.getX() + this.getHitbox().getWidth(), this.getY()}, 
+			{this.getX(), this.getY() + this.getHitbox().getHeight()},
+			{this.getX() + this.getHitbox().getWidth(), this.getY() + this.getHitbox().getHeight()}
+		}) 
+		{
+
+			try {
+				Cell currentCell = Main.getCurrentScene().getTileMap().getCollisionLayer().getCell((int) (pos[0] / TileMap.TILE_SIZE), (int) (pos[1] / TileMap.TILE_SIZE));
+
+				if (currentCell.getTile().getProperties().containsKey("solid")) {
+					Util.log("Collision", "Player standing on solid tile");
+					colliding = true;
+					return;
+				}
+
+			} catch (Exception e) {
+
 			}
-			
-			if (new Rectangle(this.getHitbox().getX(), this.getHitbox().getY() + moveSpeed, this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
-				this.setY(this.getY() - moveSpeed);
-			}
-			
-			if (new Rectangle(this.getHitbox().getX(), this.getHitbox().getY() - moveSpeed, this.getHitbox().getWidth(), this.getHitbox().getHeight()).overlaps(rect)) {
-				this.setY(this.getY() + moveSpeed);
-			}
+
 		}
 	}
 
 	private void handleKeyboardMovement(float delta) {
-		// handle input
-		if (Gdx.input.isKeyPressed(Keys.W)) {
-			lastDirection = walkAnimation.getUp();
-			this.setY(this.getY() + moveSpeed * delta);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.A)) {
-			lastDirection = walkAnimation.getLeft();
-			this.setX(this.getX() - moveSpeed * delta);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.S)) {
-			lastDirection = walkAnimation.getDown();
-			this.setY(this.getY() - moveSpeed * delta);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.D)) {
-			lastDirection = walkAnimation.getRight();
-			this.setX(this.getX() + moveSpeed * delta);
+		if (!colliding) {
+			
+			if (Gdx.input.isKeyPressed(Keys.W)) {
+				lastDirection = walkAnimation.getUp();
+				this.setY(this.getY() + moveSpeed * delta);
+			}
+			
+			if (Gdx.input.isKeyPressed(Keys.A)) {
+				lastDirection = walkAnimation.getLeft();
+				this.setX(this.getX() - moveSpeed * delta);
+			}
+			
+			if (Gdx.input.isKeyPressed(Keys.S)) {
+				lastDirection = walkAnimation.getDown();
+				this.setY(this.getY() - moveSpeed * delta);
+			}
+			
+			if (Gdx.input.isKeyPressed(Keys.D)) {
+				lastDirection = walkAnimation.getRight();
+				this.setX(this.getX() + moveSpeed * delta);
+			}
 		}
 	}
 

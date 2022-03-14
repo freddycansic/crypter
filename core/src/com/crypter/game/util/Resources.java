@@ -13,7 +13,7 @@ public class Resources {
 
 	public static Random r;
 	public static ShapeRenderer sr;
-	public static TileMap tilemap1;
+	public static TileMap tilemap;
 	public static Player player;
 	public static Man man;
 	public static Skin skin;
@@ -22,7 +22,8 @@ public class Resources {
 		r = new Random();
 		sr = new ShapeRenderer();	
 		skin = new Skin(Gdx.files.internal("skins/crypter/uiskin.json"));
-		
+		tilemap = new TileMap("tilemaps/tilemap.tmx");
+
 		player = new Player();
 		man = new Man(3*Window.WIDTH/4, 3*Window.HEIGHT/4);
 
@@ -30,7 +31,7 @@ public class Resources {
 	
 	public void dispose() {
 		sr.dispose();
-		tilemap1.dispose();
+		tilemap.dispose();
 		skin.dispose();
 	}
 }
