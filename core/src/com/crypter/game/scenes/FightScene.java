@@ -1,7 +1,5 @@
 package com.crypter.game.scenes;
 
-import java.util.stream.Collectors;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,11 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crypter.game.entities.Entity;
 import com.crypter.game.entities.Player;
-import com.crypter.game.game.Attack;
 import com.crypter.game.ui.Action;
 import com.crypter.game.ui.Button;
 import com.crypter.game.util.Resources;
@@ -34,7 +30,7 @@ public class FightScene extends Scene {
 		super(viewport);
 		
 		this.player.setPos(Window.WIDTH/4 - this.player.getHitbox().getWidth(), Window.HEIGHT / 4);
-		this.enemy.setPos(3*Window.WIDTH/4, 3*Window.HEIGHT/4 - this.enemy.getHitbox().getHeight() / 2);
+		this.enemy.setPos(3*Window.WIDTH/4, 1*Window.HEIGHT/2 - this.enemy.getHitbox().getHeight() / 2);
 		
 		background = new Image(new Texture(Gdx.files.internal("scenes/fight/background.png")));
 		background.setBounds(0, 0, Window.WIDTH, Window.HEIGHT);

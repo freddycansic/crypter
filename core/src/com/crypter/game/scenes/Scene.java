@@ -7,14 +7,20 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crypter.game.entities.Entity;
 import com.crypter.game.game.TileMap;
 import com.crypter.game.ui.UIComponent;
+import com.crypter.game.util.Debug;
 
 public abstract class Scene extends Stage {
 
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private TileMap tilemap;
+	private TileMap tilemap = new TileMap();
+	private int ID;
+	
+	private static int ID_COUNT = 0;
 	
 	public Scene(Viewport viewport) {
 		super(viewport);
+		
+		ID = ID_COUNT++;
 	}
 	
 	public abstract void update();
@@ -53,5 +59,14 @@ public abstract class Scene extends Stage {
 	
 	public void setTileMap(TileMap tilemap) {
 		this.tilemap = tilemap;
+	}
+	
+	public int getID() {
+		return ID;
+	}
+	
+	@Override
+	public String toString() {
+		return Integer.toString(ID);
 	}
 }

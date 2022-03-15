@@ -16,7 +16,6 @@ public class Level1 extends Scene {
 	public Level1(Viewport viewport) {
 		super(viewport);		
 				
-		
 		this.addEntities(man, player);
 		this.setTileMap(Resources.tilemap);
 	}

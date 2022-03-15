@@ -19,6 +19,7 @@ public class Man extends Entity {
 		texture = new Texture(Gdx.files.internal("entities/man/textures/man.png"));
 		
 		setHitbox(new Hitbox(this, texture));
+		setTexture(texture);
 	}
 
 	@Override
@@ -29,7 +30,6 @@ public class Man extends Entity {
 	@Override
 	public void update(float delta) {
 		super.update(delta);
-	
 	}
 
 	@Override
