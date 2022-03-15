@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.crypter.game.entities.Entity;
@@ -19,8 +18,6 @@ public class Main extends Game {
 	
 	private static Scene currentScene;
 	private Resources rs;
-	
-	private static final int DEBUG_LEVEL = 1;
 	
 	@Override
 	public void create () {
@@ -46,16 +43,19 @@ public class Main extends Game {
 		Resources.sr.begin(ShapeType.Line);
 		Resources.sr.setColor(Color.RED);
 		
-		// draw hitboxes around each entity
-		for (Entity entity : currentScene.getEntities()) {
-			Resources.sr.rect(entity.getHitbox().getX(), entity.getHitbox().getY(), entity.getHitbox().getWidth(), entity.getHitbox().getHeight());
+		if (Debug.LEVEL > 0) {			
+			// draw hitboxes around each entity
+			for (Entity entity : currentScene.getEntities()) {
+				Resources.sr.rect(entity.getHitbox().getX(), entity.getHitbox().getY(), entity.getHitbox().getWidth(), entity.getHitbox().getHeight());
+			}
+			
+			// draw hitboxes around all solid cells in current tilemap
+			for (Rectangle rect : currentScene.getTileMap().getCollidableRects()) {
+				Resources.sr.rect(rect.x, rect.y, rect.width, rect.height);
+			}
+			
 		}
 
-		// draw hitboxes around all solid cells in current tilemap
-		for (Rectangle rect : currentScene.getTileMap().getCollidableRects()) {
-			Resources.sr.rect(rect.x, rect.y, rect.width, rect.height);
-		}
-	
 		Resources.sr.end();	
 	}
 	

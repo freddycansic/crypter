@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crypter.game.entities.Man;
 import com.crypter.game.entities.Player;
-import com.crypter.game.game.TileMap;
 import com.crypter.game.util.Resources;
 
 public class Level1 extends Scene {

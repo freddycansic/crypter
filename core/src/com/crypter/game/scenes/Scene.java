@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crypter.game.entities.Entity;
 import com.crypter.game.game.TileMap;
 import com.crypter.game.ui.UIComponent;
-import com.crypter.game.util.Debug;
 
 public abstract class Scene extends Stage {
 

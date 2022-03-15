@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crypter.game.Main;
 import com.crypter.game.game.Hitbox;
 import com.crypter.game.scenes.FightScene;
-import com.crypter.game.util.Resources;
 import com.crypter.game.util.Window;
 
 public class Man extends Entity {

@@ -58,7 +58,6 @@ public class Player extends Entity {
 
 	@Override
 	public void update(float delta) {		
-		Debug.log(this, "Updated");
 		elapsedTime += delta;
 		
 		for (Entity entity : Main.getCurrentScene().getEntities()) {
