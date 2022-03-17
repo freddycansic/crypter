@@ -68,21 +68,89 @@ public class Player extends Entity {
 				return;
 			}
 		}
+
+		boolean canMove = true;
 		
-		handleKeyboardMovement(delta);	
-		handleTilemapCollision(delta);
+		if (Gdx.input.isKeyPressed(Keys.W)) {
+			lastDirection = walkAnimation.getUp();
+			
+			Rectangle newPos = new Rectangle(this.getX(), this.getY() + moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight());
+			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
+				if (newPos.overlaps(rect)) {
+					canMove = false;
+					break;
+				}
+			}
+			
+			if (canMove) {
+				this.setY(this.getY() + moveSpeed * delta);
+			}
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			lastDirection = walkAnimation.getLeft();
+			
+			Rectangle newPos = new Rectangle(this.getX() - moveSpeed * delta, this.getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight());
+			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
+				if (newPos.overlaps(rect)) {
+					canMove = false;
+					break;
+				}
+			}
+			
+			if (canMove) {
+				this.setX(this.getX() - moveSpeed * delta);				
+			}
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.S)) {
+			lastDirection = walkAnimation.getDown();
+			
+			Rectangle newPos = new Rectangle(this.getX(), this.getY() - moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight());
+			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
+				if (newPos.overlaps(rect)) {
+					canMove = false;
+					break;
+				}
+			}
+			
+			if (canMove) {
+				this.setY(this.getY() - moveSpeed * delta);
+			}
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.D)) {
+			lastDirection = walkAnimation.getRight();
+			Rectangle newPos = new Rectangle(this.getX() + moveSpeed * delta, this.getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight());
+			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
+				if (newPos.overlaps(rect)) {
+					canMove = false;
+					break;
+				}
+			}
+			
+			if (canMove) {
+				this.setX(this.getX() + moveSpeed * delta);
+			}
+			
+		}
+		
+//		checkTilemapCollision(delta);
+//		handleKeyboardMovement(delta);	
 
 		super.update(delta);
 	}
 
-	private void handleTilemapCollision(float delta) {
+	private boolean checkTilemapCollision(float delta) {
 		
 		for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
 			if (this.getHitbox().overlaps(rect)) {
 				Debug.log("Collision", "Player colliding with tile at (" + rect.x + ", " + rect.y + ")");
+				
 			}
 		}
 		
+		return false;
 	}
 
 	private void handleKeyboardMovement(float delta) {
