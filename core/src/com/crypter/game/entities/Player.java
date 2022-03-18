@@ -157,6 +157,8 @@ public class Player extends Entity {
 		// if forward and backward or left and right are being pressed
 		if (Gdx.input.isKeyPressed(Keys.A) && Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.W) && Gdx.input.isKeyPressed(Keys.S)) {
 			frame = walkAnimation.get(Direction.DOWN).getKeyFrames()[0];
+			movement.x = 0;
+			movement.y = 0;
 		}
 
 		// if no keys are being pressed

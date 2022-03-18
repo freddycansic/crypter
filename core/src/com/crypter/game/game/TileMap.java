@@ -52,7 +52,7 @@ public final class TileMap {
 								TileMap.TILE_SIZE
 								));
 						
-						Debug.log("TileMap", "Collidable rect found at (" + x*TileMap.TILE_SIZE + ", " + y*TileMap.TILE_SIZE + ")");
+//						Debug.log("TileMap", "Collidable rect found at (" + x*TileMap.TILE_SIZE + ", " + y*TileMap.TILE_SIZE + ")");
 					}
 					
 				} catch (Exception e) {

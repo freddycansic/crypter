@@ -26,7 +26,9 @@ public class Debug {
 		case 2:
 			Gdx.app.log(tag + " " + new SimpleDateFormat("HH:mm:ss").format(new Date()), message);
 			break;
-
+		default:
+			return;
+			
 		}
 
 	}
@@ -45,7 +47,8 @@ public class Debug {
 		case 2:
 			Gdx.app.log(tag + " " + new SimpleDateFormat("HH:mm:ss").format(new Date()), Integer.toString(message));
 			break;
-
+		default:
+			return;
 		}
 
 	}
@@ -63,7 +66,8 @@ public class Debug {
 		case 2:
 			Gdx.app.log(obj.getClass().getSimpleName() + " " + new SimpleDateFormat("HH:mm:ss").format(new Date()), message);
 			break;
-
+		default:
+			return;
 		}
 	}
 	
