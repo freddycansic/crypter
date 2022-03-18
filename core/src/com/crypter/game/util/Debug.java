@@ -66,5 +66,21 @@ public class Debug {
 
 		}
 	}
+	
+	// bit gross but i want red text
+	public static void err(String tag, String message) {
+		
+		switch (LEVEL) {
+		
+		case 0:
+			return;
+			
+		case 1:
+			System.err.println("[" + tag + "] " + message);
+			
+		case 2:
+			System.err.println("[" + tag + " " + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " + message);
+		}
+	}
 
 }

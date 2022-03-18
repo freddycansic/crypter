@@ -56,7 +56,7 @@ public class FightScene extends Scene {
 				
 		batch.begin();
 		
-		batch.draw(player.getWalkAnimation().getDown().getKeyFrames()[0], player.getX(), player.getY());
+//		batch.draw(player.getWalkAnimation().getDown().getKeyFrames()[0], player.getX(), player.getY());
 		batch.draw(enemy.getTexture(), enemy.getX(), enemy.getY());
 		
 		batch.end();

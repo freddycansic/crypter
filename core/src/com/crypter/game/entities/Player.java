@@ -1,30 +1,71 @@
 package com.crypter.game.entities;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.crypter.game.Main;
 import com.crypter.game.game.Attack;
 import com.crypter.game.game.Hitbox;
-import com.crypter.game.game.WalkAnimation;
-import com.crypter.game.util.Debug;
 import com.crypter.game.util.Window;
 
 public class Player extends Entity {
 
-	private WalkAnimation walkAnimation;
+	private enum Direction {
+		LEFT, RIGHT, UP, DOWN
+	}
+
 	private float elapsedTime;
 	private float moveSpeed = 400;
-	private Animation<AtlasRegion> lastDirection;
 	private Array<Attack> attacks;
+	
+	private TextureAtlas walkCycleAtlas;
+	private Direction lastDirection = Direction.DOWN;
+	private AtlasRegion frame;
+	private Vector2 movement = new Vector2(0, 0);
+	
+	private HashMap<Direction, Animation<AtlasRegion>> walkAnimation;
 	
 	public Player() {
 		super(Window.WIDTH/2, Window.HEIGHT/2 + 20);
 
+		walkCycleAtlas = new TextureAtlas(Gdx.files.internal("entities/player/animations/walk/walkSpriteSheet.atlas"));
+	    
+		walkAnimation = new HashMap<Direction, Animation<AtlasRegion>>();
+		
+		walkAnimation.put(Direction.LEFT, new Animation<AtlasRegion>(0.1f,
+	    		walkCycleAtlas.findRegion("leftIdle"),
+	    		walkCycleAtlas.findRegion("leftWalkRight"),
+	    		walkCycleAtlas.findRegion("leftWalkLeft")
+	    ));
+		
+		walkAnimation.put(Direction.RIGHT, new Animation<AtlasRegion>(0.1f,
+	    		walkCycleAtlas.findRegion("rightIdle"),
+	    		walkCycleAtlas.findRegion("rightWalkRight"),
+	    		walkCycleAtlas.findRegion("rightWalkLeft")
+	    ));
+		
+		walkAnimation.put(Direction.UP, new Animation<AtlasRegion>(0.1f,
+	    		walkCycleAtlas.findRegion("upIdle"),
+	    		walkCycleAtlas.findRegion("upWalkRight"),
+	    		walkCycleAtlas.findRegion("upWalkLeft")
+	    ));
+		
+		walkAnimation.put(Direction.DOWN, new Animation<AtlasRegion>(0.1f,
+	    		walkCycleAtlas.findRegion("downIdle"),
+	    		walkCycleAtlas.findRegion("downWalkRight"),
+	    		walkCycleAtlas.findRegion("downWalkLeft")
+	    ));
+	    
+		frame = walkAnimation.get(Direction.DOWN).getKeyFrames()[0];
+		
 		attacks = new Array<Attack>();
 		attacks.add(
 			new Attack("punch"),
@@ -32,34 +73,29 @@ public class Player extends Entity {
 			new Attack("leaping pentastrike"),
 			new Attack("cough")
 		);
-		
-		walkAnimation = new WalkAnimation(Gdx.files.internal("entities/player/animations/walk/walkSpriteSheet.atlas"), 0.1f);
-		lastDirection = walkAnimation.getDown();
 
-		setHitbox(new Hitbox(this, lastDirection.getKeyFrames()[0]));
+		setHitbox(new Hitbox(this, walkAnimation.get(Direction.DOWN).getKeyFrames()[0]));
 		
-		this.setPosition(Window.WIDTH - lastDirection.getKeyFrames()[0].getRegionWidth() / 2,
-				Window.HEIGHT - lastDirection.getKeyFrames()[0].getRegionHeight() / 2);
+		this.setPosition(Window.WIDTH - this.getHitbox().getWidth() / 2,
+				Window.HEIGHT - this.getHitbox().getHeight() / 2);
 		// log function = y = 50log(-x+1000)-50
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		
-		// if no buttons are being pressed then render the last facing direction's idle position
-		if (!Gdx.input.isKeyPressed(Keys.W) && !Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.S) && !Gdx.input.isKeyPressed(Keys.D)) {
 			
-			batch.draw(lastDirection.getKeyFrames()[0], this.getX(), this.getY());
-			return; // exit as to not draw moving animation
-		}
+		batch.draw(frame, this.getX(), this.getY());
+		this.setPos(this.getX() + movement.x, this.getY() + movement.y);
 		
-		batch.draw(lastDirection.getKeyFrame(elapsedTime, true), this.getX(), this.getY());
 	}
 
 	@Override
 	public void update(float delta) {		
 		elapsedTime += delta;
-		
+		movement.x = 0;
+		movement.y = 0;
+
+		// entity collision
 		for (Entity entity : Main.getCurrentScene().getEntities()) {
 			if (entity == this) continue; // don't check against itself TODO could get weird
 			
@@ -68,115 +104,82 @@ public class Player extends Entity {
 				return;
 			}
 		}
-
-		boolean canMove = true;
 		
+		// W
 		if (Gdx.input.isKeyPressed(Keys.W)) {
-			lastDirection = walkAnimation.getUp();
-			
-			Rectangle newPos = new Rectangle(this.getX(), this.getY() + moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight());
-			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
-				if (newPos.overlaps(rect)) {
-					canMove = false;
-					break;
-				}
+			if (movementWillCauseCollision(0, moveSpeed * delta)) {
+				frame = walkAnimation.get(Direction.UP).getKeyFrames()[0];
+			} else {
+				frame = walkAnimation.get(Direction.UP).getKeyFrame(elapsedTime, true);
+				movement.y += moveSpeed * delta;
 			}
 			
-			if (canMove) {
-				this.setY(this.getY() + moveSpeed * delta);
-			}
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.A)) {
-			lastDirection = walkAnimation.getLeft();
-			
-			Rectangle newPos = new Rectangle(this.getX() - moveSpeed * delta, this.getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight());
-			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
-				if (newPos.overlaps(rect)) {
-					canMove = false;
-					break;
-				}
-			}
-			
-			if (canMove) {
-				this.setX(this.getX() - moveSpeed * delta);				
-			}
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.S)) {
-			lastDirection = walkAnimation.getDown();
-			
-			Rectangle newPos = new Rectangle(this.getX(), this.getY() - moveSpeed * delta, this.getHitbox().getWidth(), this.getHitbox().getHeight());
-			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
-				if (newPos.overlaps(rect)) {
-					canMove = false;
-					break;
-				}
-			}
-			
-			if (canMove) {
-				this.setY(this.getY() - moveSpeed * delta);
-			}
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.D)) {
-			lastDirection = walkAnimation.getRight();
-			Rectangle newPos = new Rectangle(this.getX() + moveSpeed * delta, this.getY(), this.getHitbox().getWidth(), this.getHitbox().getHeight());
-			for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
-				if (newPos.overlaps(rect)) {
-					canMove = false;
-					break;
-				}
-			}
-			
-			if (canMove) {
-				this.setX(this.getX() + moveSpeed * delta);
-			}
-			
+			lastDirection = Direction.UP;
 		}
 		
-//		checkTilemapCollision(delta);
-//		handleKeyboardMovement(delta);	
+		// A
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			if (movementWillCauseCollision(-moveSpeed * delta, 0)) {
+				frame = walkAnimation.get(Direction.LEFT).getKeyFrames()[0];
+				
+			} else {
+				frame = walkAnimation.get(Direction.LEFT).getKeyFrame(elapsedTime, true);
+				movement.x -= moveSpeed * delta;
+			}
+			
+			lastDirection = Direction.LEFT;
+		}
+		
+		// S
+		if (Gdx.input.isKeyPressed(Keys.S)) {
+			if (movementWillCauseCollision(0, -moveSpeed * delta)) {
+				frame = walkAnimation.get(Direction.DOWN).getKeyFrames()[0];
+			} else {
+				frame = walkAnimation.get(Direction.DOWN).getKeyFrame(elapsedTime, true);
+				movement.y -= moveSpeed * delta;
+			}
+			
+			lastDirection = Direction.DOWN;
+		}
+		
+		// D
+		if (Gdx.input.isKeyPressed(Keys.D)) {
+			if (movementWillCauseCollision(moveSpeed * delta, 0)) {
+				frame = walkAnimation.get(Direction.RIGHT).getKeyFrames()[0];
+			} else {
+				frame = walkAnimation.get(Direction.RIGHT).getKeyFrame(elapsedTime, true);
+				movement.x += moveSpeed * delta;
+			}
+			
+			lastDirection = Direction.RIGHT;
+		}
+		
+		// if forward and backward or left and right are being pressed
+		if (Gdx.input.isKeyPressed(Keys.A) && Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.W) && Gdx.input.isKeyPressed(Keys.S)) {
+			frame = walkAnimation.get(Direction.DOWN).getKeyFrames()[0];
+		}
 
+		// if no keys are being pressed
+		if (!Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.S) && !Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.W)) {
+			frame = walkAnimation.get(lastDirection).getKeyFrames()[0];
+		}
+
+		
+		// move hitbox
 		super.update(delta);
 	}
 
-	private boolean checkTilemapCollision(float delta) {
-		
-		for (Rectangle rect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
-			if (this.getHitbox().overlaps(rect)) {
-				Debug.log("Collision", "Player colliding with tile at (" + rect.x + ", " + rect.y + ")");
-				
+	private boolean movementWillCauseCollision(float xMovement, float yMovement) {
+		Rectangle newRectPos = new Rectangle(this.getX() + xMovement, this.getY() + yMovement, this.getHitbox().getWidth(), this.getHitbox().getHeight());
+		for (Rectangle collidableRect : Main.getCurrentScene().getTileMap().getCollidableRects()) {
+			if (newRectPos.overlaps(collidableRect)) {
+				return true;
 			}
 		}
 		
 		return false;
 	}
-
-	private void handleKeyboardMovement(float delta) {
-
-		if (Gdx.input.isKeyPressed(Keys.W)) {
-			lastDirection = walkAnimation.getUp();
-			this.setY(this.getY() + moveSpeed * delta);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.A)) {
-			lastDirection = walkAnimation.getLeft();
-			this.setX(this.getX() - moveSpeed * delta);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.S)) {
-			lastDirection = walkAnimation.getDown();
-			this.setY(this.getY() - moveSpeed * delta);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.D)) {
-			lastDirection = walkAnimation.getRight();
-			this.setX(this.getX() + moveSpeed * delta);
-		}
-
-	}
-
+	
 	@Override
 	public void interact(Player player) {
 		// should never be called
@@ -187,10 +190,6 @@ public class Player extends Entity {
 	@Override
 	public String toString() {
 		return getVec2Pos().toString();
-	}
-	
-	public WalkAnimation getWalkAnimation() {
-		return this.walkAnimation;
 	}
 	
 	public Array<Attack> getAttacks() {
