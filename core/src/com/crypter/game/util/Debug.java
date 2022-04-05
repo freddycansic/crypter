@@ -84,6 +84,8 @@ public class Debug {
 			
 		case 2:
 			System.err.println("[" + tag + " " + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " + message);
+		default:
+			return;
 		}
 	}
 
