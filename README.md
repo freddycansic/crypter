@@ -1,6 +1,8 @@
 # crypter
 RPG
 
+[![CodeFactor](https://www.codefactor.io/repository/github/freddycansic/crypter/badge/main)](https://www.codefactor.io/repository/github/freddycansic/crypter/overview/main)
+
 ## Credits
 ### Software
 - [Heiro](https://libgdx.com/wiki/tools/hiero)
